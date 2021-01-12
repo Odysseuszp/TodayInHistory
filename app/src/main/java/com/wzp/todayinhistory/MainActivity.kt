@@ -1,5 +1,6 @@
 package com.wzp.todayinhistory
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.wzp.todayinhistory.databinding.ActivityMainBinding
 import com.wzp.todayinhistory.model.BaseRetrofitClient
 import com.wzp.todayinhistory.model.RequestService
+import com.wzp.todayinhistory.view.ShowDayActivity
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         mainBinding.searchBtn.apply {
             text = getString(R.string.search_btn_text)
             setOnClickListener {
+                val intent = Intent(this@MainActivity, ShowDayActivity::class.java)
+                startActivity(intent)
                 coroutineRequest()
             }
         }
