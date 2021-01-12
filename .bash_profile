@@ -1,0 +1,1 @@
+export PATH=${PATH}:/Users/wzp/Library/Android/sdk/tools:/Users/wzp/Library/Android/sdk/platform-tools
