@@ -12,6 +12,11 @@ import com.wzp.todayinhistory.view.ShowDayActivity
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
+/**
+ * @Author wzp
+ * @Date 1/12/21
+ * @Des MainActivity使用Retrofit请求数据
+ */
 class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var job: Job
