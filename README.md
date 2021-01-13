@@ -3,6 +3,8 @@
 #### 介绍
 kotlin+Coroutine+Retrofit+MVVM
 
+方法转载自：https://juejin.cn/post/6844903865616171015
+
 #### 软件架构
 Kotlin+MVVM+Coroutine+Retrofit
 
