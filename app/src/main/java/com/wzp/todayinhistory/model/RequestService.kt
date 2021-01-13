@@ -13,8 +13,8 @@ import retrofit2.http.Query
  */
 interface RequestService {
     @GET("todayOnhistory/queryEvent.php")
-    fun getDayData(
+    suspend fun getDayData(
         @Query("key") key: String,
         @Query("date") date: String
-    ): Call<ResponseData<List<DayDate>>>
+    ): ResponseData<List<DayDate>>
 }
