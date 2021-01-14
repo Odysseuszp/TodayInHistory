@@ -1,10 +1,7 @@
 package com.wzp.todayinhistory.model
 
-import android.util.Log
 import com.wzp.todayinhistory.base.BaseRepository
 import com.wzp.todayinhistory.base.Const
-import com.wzp.todayinhistory.base.ResponseData
-import com.wzp.todayinhistory.data.DayDate
 
 /**
  * @Author wzp
@@ -12,11 +9,14 @@ import com.wzp.todayinhistory.data.DayDate
  * @Des Repository用于获取数据
  */
 class ArticleRepository : BaseRepository() {
-    suspend fun getDatas(): ResponseData<List<DayDate>> {
-        return request {
-            Log.d("odysseus","load3 run in ${Thread.currentThread().name}")
-            BaseRetrofitClient.getService(RequestService::class.java, Const.BASE_URL)
-                .getDayData(Const.INTERFACE_KEY, "12/15")
-        }
+    private val api by lazy {
+        BaseRetrofitClient.getService(
+            RequestService::class.java,
+            Const.BASE_URL
+        )
+    }
+
+    suspend fun getDatas(date: String) = request {
+        api.getDayData(Const.INTERFACE_KEY, date)
     }
 }

@@ -8,22 +8,17 @@ import com.wzp.todayinhistory.data.DayDate
 import com.wzp.todayinhistory.model.ArticleRepository
 
 class DayViewModel : BaseViewModel() {
-    private val datas: MutableLiveData<ResponseData<List<DayDate>>> by lazy {
-        MutableLiveData<ResponseData<List<DayDate>>>().also {
-            loadDatas()
-        }
-    }
 
+    private var datas = MutableLiveData<ResponseData<List<DayDate>>>()
     private val repository = ArticleRepository()
 
     fun getArticle(): LiveData<ResponseData<List<DayDate>>> {
         return datas
     }
 
-    //执行异步操作获取数据
-    private fun loadDatas() {
+    fun loadDatas(date: String) {
         launchUI {
-            val result = repository.getDatas()
+            val result = repository.getDatas(date)
             datas.value = result
         }
     }

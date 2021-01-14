@@ -1,18 +1,14 @@
 package com.wzp.todayinhistory
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wzp.todayinhistory.adapter.ShowTitleAdapter
-import com.wzp.todayinhistory.base.Const
 import com.wzp.todayinhistory.data.DayDate
 import com.wzp.todayinhistory.databinding.ActivityMainBinding
-import com.wzp.todayinhistory.model.BaseRetrofitClient
-import com.wzp.todayinhistory.model.RequestService
 import com.wzp.todayinhistory.viewmodel.DayViewModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -29,7 +25,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var showTitleAdapter: ShowTitleAdapter
 
-    private val titleDate = mutableListOf<DayDate>()
+    private val titleDate = ArrayList<DayDate>()
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -52,24 +48,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         handleExceptions()
     }
 
-    //使用协程进行请求
-    private fun coroutineRequest() {
-        val apiService = BaseRetrofitClient.getService(RequestService::class.java, Const.BASE_URL)
-        launch {
-            try {
-                val result =
-                    apiService.getDayData(
-                        Const.INTERFACE_KEY,
-                        mainBinding.searchEdit.text.toString()
-                    )
-                val json = result.result
-                Log.d("odysseus", "result = $json")
-            } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "错了", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     //初始化列表
     private fun initDateRv() {
         showTitleAdapter = ShowTitleAdapter(R.layout.show_title_item, titleDate)
@@ -87,6 +65,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
      * @Des  使用ViewModel请求网络
      */
     private fun initDatas() {
+        val inputDate = mainBinding.searchEdit.text.toString()
+        dayViewModel.loadDatas(inputDate)
         dayViewModel.getArticle().observe(this, {
             it.result.let { it1 ->
                 titleDate.addAll(it1)

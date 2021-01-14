@@ -6,9 +6,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.wzp.todayinhistory.R
 import com.wzp.todayinhistory.data.DayDate
 
-class ShowTitleAdapter(layoutResId: Int, mList: MutableList<DayDate>) :
+class ShowTitleAdapter(layoutResId: Int, mList: ArrayList<DayDate>) :
     BaseQuickAdapter<DayDate, BaseViewHolder>(layoutResId, mList) {
-
 
     override fun convert(helper: BaseViewHolder, item: DayDate) {
         val dayTV: TextView = helper.getView(R.id.day_text1)
