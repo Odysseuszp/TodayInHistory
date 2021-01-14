@@ -5,12 +5,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.wzp.todayinhistory.adapter.ShowTitleAdapter
 import com.wzp.todayinhistory.base.Const
+import com.wzp.todayinhistory.data.DayDate
 import com.wzp.todayinhistory.databinding.ActivityMainBinding
 import com.wzp.todayinhistory.model.BaseRetrofitClient
 import com.wzp.todayinhistory.model.RequestService
+import com.wzp.todayinhistory.viewmodel.DayViewModel
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -23,6 +26,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var dayViewModel: DayViewModel
     private lateinit var job: Job
+
+    private lateinit var showTitleAdapter: ShowTitleAdapter
+
+    private val titleDate = mutableListOf<DayDate>()
 
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
@@ -37,13 +44,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         mainBinding.searchBtn.apply {
             text = getString(R.string.search_btn_text)
             setOnClickListener {
-//                val intent = Intent(this@MainActivity, ShowDayActivity::class.java)
-//                startActivity(intent)
-//                coroutineRequest()
                 initDatas()
             }
         }
 
+        initDateRv()
         handleExceptions()
     }
 
@@ -65,6 +70,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
+    //初始化列表
+    private fun initDateRv() {
+        showTitleAdapter = ShowTitleAdapter(R.layout.show_title_item, titleDate)
+        val adapterManager = LinearLayoutManager(this)
+        adapterManager.orientation = LinearLayoutManager.VERTICAL
+        mainBinding.showRv.apply {
+            adapter = showTitleAdapter
+            layoutManager = adapterManager
+        }
+    }
+
     /**
      * @Author wzp
      * @Date 1/13/21
@@ -72,9 +88,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
      */
     private fun initDatas() {
         dayViewModel.getArticle().observe(this, {
-            for (i in it.result.indices) {
-                Log.d("odysseus", "json = ${it.result[i].title}")
-                mainBinding.showText.text = it.result[i].title
+            it.result.let { it1 ->
+                titleDate.addAll(it1)
+                mainBinding.showRv.adapter?.notifyDataSetChanged()
             }
         })
     }
