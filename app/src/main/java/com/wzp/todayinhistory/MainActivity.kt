@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         dayViewModel.loadDatas(inputDate)
         dayViewModel.getArticle().observe(this, {
             it.result.let { it1 ->
+                titleDate.clear()
                 titleDate.addAll(it1)
                 mainBinding.showRv.adapter?.notifyDataSetChanged()
             }

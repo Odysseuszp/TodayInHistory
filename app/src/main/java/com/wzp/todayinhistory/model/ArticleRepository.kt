@@ -1,5 +1,6 @@
 package com.wzp.todayinhistory.model
 
+import com.wzp.todayinhistory.api.RequestService
 import com.wzp.todayinhistory.base.BaseRepository
 import com.wzp.todayinhistory.base.Const
 

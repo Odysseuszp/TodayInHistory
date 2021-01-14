@@ -1,8 +1,7 @@
-package com.wzp.todayinhistory.model
+package com.wzp.todayinhistory.api
 
 import com.wzp.todayinhistory.base.ResponseData
 import com.wzp.todayinhistory.data.DayDate
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
